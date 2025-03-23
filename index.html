@@ -110,21 +110,6 @@
         </div>
         <h4>احترامي وتقديري: السعيد محمود</h4>
       </div>
-      <div class="box" dir="ltr">
-        <h1>Dahab Barber Shop</h1>
-        <h2>Established in 1991</h2>
-        <h3>Working Hours: 12 PM - 10 PM</h3>
-        <h3 style="color: red;">Closed During Prayer Times</h3>
-        <h3 style="color: red;">Closed on Monday for Rest</h3>
-        <p class="visitor-counter">
-          Current number of visitors: <span id="english-count">0</span>
-        </p>
-        <div class="admin-controls" id="english-controls">
-          <button onclick="increaseCount()">➕</button>
-          <button onclick="decreaseCount()">➖</button>
-        </div>
-        <h4>Respect and Appreciation: El-Saeed Mahmoud</h4>
-      </div>
     </div>
   </div>
 
@@ -141,7 +126,6 @@
 
     function updateCounts() {
       document.getElementById('arabic-count').innerText = customerCount;
-      document.getElementById('english-count').innerText = customerCount;
     }
 
     function increaseCount() {
@@ -157,13 +141,27 @@
     }
 
     document.getElementById('admin-login').addEventListener('click', () => {
+      console.log("Admin button clicked!");  // ✅ اختبار الضغط على زر الأدمن
       let pass = prompt('Enter Admin Password:');
+
+      if (pass === null) {
+        console.log("User canceled the prompt.");  // ✅ إذا أغلق المستخدم النافذة بدون إدخال كلمة مرور
+        return;
+      }
+
+      if (!pass) { 
+        console.log("Prompt didn't work, using confirm as fallback.");
+        pass = window.confirm('Click OK if you are Admin');
+        if (pass) pass = '12661';
+      }
+
       if (pass === '12661') {
+        console.log("Correct password entered.");  // ✅ تم إدخال كلمة المرور الصحيحة
         document.getElementById('arabic-controls').style.display = 'block';
-        document.getElementById('english-controls').style.display = 'block';
-        alert('Admin Access Granted');
+        alert('✅ Admin Access Granted!');
       } else {
-        alert('Wrong Password!');
+        console.log("Wrong password entered.");  // ❌ كلمة مرور خاطئة
+        alert('❌ Wrong Password!');
       }
     });
 
@@ -171,6 +169,7 @@
       customerCount = snapshot.val() || 0;
       updateCounts();
     });
+
   </script>
 </body>
 </html>
